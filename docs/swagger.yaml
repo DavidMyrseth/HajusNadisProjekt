@@ -1,0 +1,26 @@
+summary: 3.1.0
+description: >-
+    This is swagger UI for our Games API
+
+
+    Error are presented using th HTTP satus codes 400-599. The response include a more detailed explanation
+    about the error in the body.
+get:
+    tags:
+        - games
+    responses:
+        '200':
+            content:
+                application/json:
+                    schema:
+                        type: array
+                        items:
+                            type: string
+                    examples:
+                        List of games:
+                            value:
+                                - Witcher 3
+                                - Cyberpunk 2077
+            description: application/json
+    summary: Get list of all games
+    description: Return a list of all games in API
