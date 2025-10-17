@@ -13,6 +13,7 @@ const games = [
     {id: 6, name: "Valorant",price: 0},
     {id: 7, name: "Forza Horizon 5",price: 59.99}
 ]
+/// git check 1
 
 app.get("/games", (req, res) => {
     res.send(games)
