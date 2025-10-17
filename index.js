@@ -1,17 +1,20 @@
 const app = require("express") ()
 const port = 8080
 const swaggerUi = require("swagger-ui-express")
-const swaggerDocument = require("./docs/swagger.json");
+const swaggerDocument = require("./docs/swagger.yaml");
+const yamljs = require("yamljs")
+const swaggerDocument = yamljs.load("./docs/swagger.yaml");
+
 
 const games = [
-    {id: 0, name: "Witcher 3",price: 29.99},
-    {id: 1, name: "Cuberpunk 2077",price: 59.99},
-    {id: 2, name: "Minecraft",price: 26.99},
-    {id: 3, name: "Conter-strike: Global Offensive",price: 26.99},
-    {id: 4, name: "Roblox",price: 0},
-    {id: 5, name: "Grand Theft Auto V",price: 29.99},
-    {id: 6, name: "Valorant",price: 0},
-    {id: 7, name: "Forza Horizon 5",price: 59.99}
+    {id: 1, name: "Witcher 3",price: 29.99},
+    {id: 2, name: "Cuberpunk 2077",price: 59.99},
+    {id: 3, name: "Minecraft",price: 26.99},
+    {id: 4, name: "Conter-strike: Global Offensive",price: 26.99},
+    {id: 5, name: "Roblox",price: 0},
+    {id: 6, name: "Grand Theft Auto V",price: 29.99},
+    {id: 7, name: "Valorant",price: 0},
+    {id: 8, name: "Forza Horizon 5",price: 59.99}
 ]
 /// git check 1
 
@@ -20,8 +23,23 @@ app.get("/games", (req, res) => {
 })
 
 app.get("/games/:id", (req, res) => {
+
+    if (typeof games[req.params.id - 1] === "undefined") {
+        returnres.status(404).send({error: "Game not found"})
+    }
+
     res.send(games[req.params.id - 1])
 })
+
+app.post("/games", (req, res => {
+    games.push({
+        id:games.length + 1,
+        price: req.body.price,
+        name:req.body.name
+    })
+
+    res.end
+}))
 
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.listen(port, () => {
